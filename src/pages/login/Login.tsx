@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { loginRequest } from "../../state/actions/userActions";
 import { Loading } from "../components/Loading";
 
-export const Login = (props: any) => {
+const Login = (props: any) => {
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -32,7 +32,7 @@ export const Login = (props: any) => {
       return false;
     }
   };
-  const handleLoginRequest = () => {
+  const handleLoginRequest = async () => {
     if (!validateEmail()) {
       setEmailError("Ingresa un correo electrónico correcto.");
     }
@@ -45,8 +45,16 @@ export const Login = (props: any) => {
       data.email !== "" &&
       data.password !== ""
     ) {
-      /* props.loginRequest(data); */
-      console.log(props);
+      const success = await props.loginRequest(data);
+      if (success) {
+        if (props.rol === 1) {
+          window.location.href = "/profile/admin";
+        } else {
+          window.location.href = "/profile/user";
+        }
+      } else {
+        setError("Credenciales incorrectas, revísalas e intenta de nuevo.");
+      }
     } else {
       setError("Ingresa el correo electrónico y la contraseña para continuar.");
     }
@@ -54,109 +62,120 @@ export const Login = (props: any) => {
   return (
     <div>
       {props.loading && <Loading />}
-      <div className="position-absolute top-50 start-50 translate-middle">
-        <div className="container">
-          <div className="row">
-            <div className="col text-center">
-              <h1
-                className="primaryColor whiteText"
-                style={{ padding: 5, margin: 5, borderRadius: 5 }}
-              >
-                La casa del Cine
-              </h1>
+      <div
+        style={{
+          width: "100%",
+          marginTop: "30%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div className="mx-auto">
+          <div className="container">
+            <div className="row">
+              <div className="col text-center">
+                <h1
+                  className="primaryColor whiteText"
+                  style={{ padding: 5, margin: 5, borderRadius: 5 }}
+                >
+                  La casa del Cine
+                </h1>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col text-center">
+                <h1>Inicio de sesión</h1>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col">
+                <div className="input-group flex-nowrap" style={{ margin: 5 }}>
+                  <span className="input-group-text" id="addon-wrapping">
+                    @
+                  </span>
+                  <input
+                    name="email"
+                    type="email"
+                    className="form-control"
+                    placeholder="Correo electrónico"
+                    aria-label="email"
+                    aria-describedby="addon-wrapping"
+                    onChange={handleInputChange}
+                    value={data.email}
+                  ></input>
+                </div>
+              </div>
             </div>
           </div>
           <div className="row">
-            <div className="col text-center">
-              <h1>Inicio de sesión</h1>
+            <div className="col">
+              {emailError && (
+                <div className="alert alert-danger" role="alert">
+                  {emailError}
+                </div>
+              )}
             </div>
           </div>
           <div className="row">
             <div className="col">
               <div className="input-group flex-nowrap" style={{ margin: 5 }}>
                 <span className="input-group-text" id="addon-wrapping">
-                  @
+                  #_$
                 </span>
                 <input
-                  name="email"
-                  type="email"
+                  name="password"
+                  type="password"
                   className="form-control"
-                  placeholder="Correo electrónico"
-                  aria-label="email"
+                  placeholder="Contraseña"
+                  aria-label="password"
                   aria-describedby="addon-wrapping"
                   onChange={handleInputChange}
+                  value={data.password}
                 ></input>
               </div>
             </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            {emailError && (
-              <div className="alert alert-danger" role="alert">
-                {emailError}
-              </div>
-            )}
-          </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            <div className="input-group flex-nowrap" style={{ margin: 5 }}>
-              <span className="input-group-text" id="addon-wrapping">
-                #_$
-              </span>
-              <input
-                name="password"
-                type="text"
-                className="form-control"
-                placeholder="Contraseña"
-                aria-label="password"
-                aria-describedby="addon-wrapping"
-                onChange={handleInputChange}
-              ></input>
+          <div className="row">
+            <div className="col">
+              {passwordError && (
+                <div className="alert alert-danger" role="alert">
+                  {passwordError}
+                </div>
+              )}
             </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            {passwordError && (
-              <div className="alert alert-danger" role="alert">
-                {passwordError}
-              </div>
-            )}
+          <div className="row">
+            <div className="col">
+              {error && (
+                <div className="alert alert-danger" role="alert">
+                  {error}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col">
-            {error && (
-              <div className="alert alert-danger" role="alert">
-                {error}
-              </div>
-            )}
+          <div className="row">
+            <div className="col text-center">
+              <p>
+                ¿No tienes cuenta? <a href="/register/user">Regístrate</a>
+              </p>
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col text-center">
-            <p>
-              ¿No tienes cuenta? <a href="/register/user">Regístrate</a>
-            </p>
-          </div>
-        </div>
-        <div className="row text-center">
-          <div className="col">
-            <button
-              type="button"
-              className="btn btn-primary"
-              style={{ margin: 5 }}
-              onClick={handleLoginRequest}
-            >
-              Iniciar sesión
-            </button>
-          </div>
-          <div className="col">
-            <a href="/" className="btn btn-danger" style={{ margin: 5 }}>
-              Cancelar
-            </a>
+          <div className="row text-center">
+            <div className="col">
+              <button
+                type="button"
+                className="btn btn-primary"
+                style={{ margin: 5 }}
+                onClick={handleLoginRequest}
+              >
+                Iniciar sesión
+              </button>
+            </div>
+            <div className="col">
+              <a href="/" className="btn btn-danger" style={{ margin: 5 }}>
+                Cancelar
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -5,11 +5,13 @@ import "./index.css";
 import { AdminProfile } from "./pages/home/screens/AdminProfile";
 import Home from "./pages/home/screens/Home";
 import { UserProfile } from "./pages/home/screens/UserProfile";
-import { Login } from "./pages/login/Login";
+import Login from "./pages/login/Login";
 import { persistStore } from "redux-persist";
 import store from "./store";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import { RegisterUser } from "./pages/register/RegisterUser";
+import { Info } from "./pages/home/screens/Info";
 
 let persistor = persistStore(store);
 
@@ -18,7 +20,9 @@ ReactDOM.render(
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />}>
+          <Route element={<Home />}>
+            <Route path="/" element={<Info />} />
+            <Route path="register" element={<RegisterUser />} />
             <Route path="profile/user" element={<UserProfile />} />
             <Route path="profile/admin" element={<AdminProfile />} />
             <Route

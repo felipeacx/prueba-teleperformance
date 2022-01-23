@@ -1,9 +1,7 @@
 import { types } from "../types";
 
 const initialState = {
-  user: {
-    usuario: {},
-  },
+  user: {},
   rol: "",
   loading: false,
   error: "",

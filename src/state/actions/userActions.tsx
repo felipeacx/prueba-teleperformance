@@ -9,8 +9,11 @@ export const loginRequest =
       type: types.LOADING,
     });
     try {
-      data.password = btoa(data.password);
       const resp = await axios.post(`${api}/login`, data);
+      console.log(resp.data);
+      dispatch({
+        type: types.LOADED,
+      });
       if (resp.data.successful) {
         return (success = true);
       } else {
@@ -19,31 +22,12 @@ export const loginRequest =
     } catch (e: any) {
       console.log(e);
       dispatch({
+        type: types.LOADED,
+      });
+      dispatch({
         type: types.SET_ERROR,
         payload: e.message,
       });
       return success;
     }
   };
-export const logoutRequest = (token: string) => async (dispatch: any) => {
-  dispatch({
-    type: types.LOADING,
-  });
-  try {
-    const respLogout = await axios.put(
-      `${api}/usuarios/closeSesion`,
-      {},
-      {
-        headers: {
-          token,
-        },
-      }
-    );
-  } catch (e: any) {
-    console.log(e);
-    dispatch({
-      type: types.SET_ERROR,
-      payload: e.message,
-    });
-  }
-};
