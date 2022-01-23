@@ -1,0 +1,19 @@
+.navbar-brand{
+  color: white !important;
+  font-size: 2rem;
+}
+
+.navbar-toggler-icon{
+  background-color: white;
+  border-radius: 5px;
+}
+
+.nav-link{
+  color: white !important;
+}
+
+.nav-item{
+  border: 1px solid white;
+  padding: 5px;
+  margin: 5px;
+}

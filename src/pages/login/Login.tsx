@@ -1,0 +1,173 @@
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import { loginRequest } from "../../state/actions/userActions";
+import { Loading } from "../components/Loading";
+
+export const Login = (props: any) => {
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [error, setError] = useState("");
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setError("");
+    setEmailError("");
+    setPasswordError("");
+    setData({
+      ...data,
+      [event.target.name]: event.target.value,
+    });
+  };
+  const validateEmail = () => {
+    return data.email.match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+  };
+  const validatePassword = () => {
+    if (data.password.length > 5) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const handleLoginRequest = () => {
+    if (!validateEmail()) {
+      setEmailError("Ingresa un correo electrónico correcto.");
+    }
+    if (!validatePassword()) {
+      setPasswordError("Ingresa una contraseña de mínimo 6 caracteres.");
+    }
+    if (
+      emailError === "" &&
+      passwordError === "" &&
+      data.email !== "" &&
+      data.password !== ""
+    ) {
+      /* props.loginRequest(data); */
+      console.log(props);
+    } else {
+      setError("Ingresa el correo electrónico y la contraseña para continuar.");
+    }
+  };
+  return (
+    <div>
+      {props.loading && <Loading />}
+      <div className="position-absolute top-50 start-50 translate-middle">
+        <div className="container">
+          <div className="row">
+            <div className="col text-center">
+              <h1
+                className="primaryColor whiteText"
+                style={{ padding: 5, margin: 5, borderRadius: 5 }}
+              >
+                La casa del Cine
+              </h1>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col text-center">
+              <h1>Inicio de sesión</h1>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="input-group flex-nowrap" style={{ margin: 5 }}>
+                <span className="input-group-text" id="addon-wrapping">
+                  @
+                </span>
+                <input
+                  name="email"
+                  type="email"
+                  className="form-control"
+                  placeholder="Correo electrónico"
+                  aria-label="email"
+                  aria-describedby="addon-wrapping"
+                  onChange={handleInputChange}
+                ></input>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            {emailError && (
+              <div className="alert alert-danger" role="alert">
+                {emailError}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <div className="input-group flex-nowrap" style={{ margin: 5 }}>
+              <span className="input-group-text" id="addon-wrapping">
+                #_$
+              </span>
+              <input
+                name="password"
+                type="text"
+                className="form-control"
+                placeholder="Contraseña"
+                aria-label="password"
+                aria-describedby="addon-wrapping"
+                onChange={handleInputChange}
+              ></input>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            {passwordError && (
+              <div className="alert alert-danger" role="alert">
+                {passwordError}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            {error && (
+              <div className="alert alert-danger" role="alert">
+                {error}
+              </div>
+            )}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col text-center">
+            <p>
+              ¿No tienes cuenta? <a href="/register/user">Regístrate</a>
+            </p>
+          </div>
+        </div>
+        <div className="row text-center">
+          <div className="col">
+            <button
+              type="button"
+              className="btn btn-primary"
+              style={{ margin: 5 }}
+              onClick={handleLoginRequest}
+            >
+              Iniciar sesión
+            </button>
+          </div>
+          <div className="col">
+            <a href="/" className="btn btn-danger" style={{ margin: 5 }}>
+              Cancelar
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const mapStateToProps = (state: any) => {
+  return state;
+};
+
+const mapDispatchToProps = { loginRequest };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
