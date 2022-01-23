@@ -156,7 +156,7 @@ const Login = (props: any) => {
           <div className="row">
             <div className="col text-center">
               <p>
-                ¿No tienes cuenta? <a href="/register/user">Regístrate</a>
+                ¿No tienes cuenta? <a href="/register">Regístrate</a>
               </p>
             </div>
           </div>

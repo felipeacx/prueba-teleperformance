@@ -2,7 +2,7 @@ import { types } from "../types";
 
 const initialState = {
   user: {},
-  rol: "",
+  token: "",
   loading: false,
   error: "",
   authenticated: false,
@@ -28,9 +28,9 @@ const userReducer = (state = initialState, action: any) => {
     case types.LOGIN_REQUEST:
       return {
         ...state,
-        user: action.payload.resultado.usuario,
-        token: action.payload.resultado.token,
-        authenticated: true,
+        user: action.payload.user,
+        token: action.payload.token,
+        authenticated: action.payload.authenticated,
       };
     case types.LOGOUT_REQUEST:
       return initialState;
