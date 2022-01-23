@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 
 export const Footer = (props: any) => {
   return (
@@ -18,8 +17,4 @@ export const Footer = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Footer);
+export default Footer;

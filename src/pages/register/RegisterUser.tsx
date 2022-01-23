@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { registerRequest } from "../../state/actions/userActions";
+import { registerRequest } from "../../actions/userActions";
 
 const RegisterUser = (props: any) => {
   const [data, setData] = useState({
@@ -19,11 +18,23 @@ const RegisterUser = (props: any) => {
   };
   const handleRegisterRequest = async () => {
     if (data.name !== "" && data.email !== "" && data.password !== "") {
-      const success = await props.registerRequest(data);
-      if (success) {
+      await registerRequest(data);
+      if (
+        localStorage.getItem("error") === "Email already registered" &&
+        localStorage.getItem("success") === "false"
+      ) {
         setError(
-          "Te has registrado exitosamente, inicia sesión con el email y la contraseña registradas"
+          "El correo electrónico ingresado ya fue registrado en el sistema, intenta con uno nuevo o inicia sesión"
         );
+      } else {
+        if (localStorage.getItem("success") === "true") {
+          setError(
+            "Te has registrado exitosamente, inicia sesión con el email y la contraseña registradas"
+          );
+        } else {
+          const err = localStorage.getItem("error") ?? "";
+          setError(err);
+        }
       }
     } else {
       setError("Ingresa todos los datos para continuar");
@@ -126,10 +137,4 @@ const RegisterUser = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return state;
-};
-
-const mapDispatchToProps = { registerRequest };
-
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterUser);
+export default RegisterUser;

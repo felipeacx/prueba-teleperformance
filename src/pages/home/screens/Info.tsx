@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export const Info = () => {
   return (
@@ -21,9 +21,9 @@ export const Info = () => {
         </li>
       </ul>
       <h5 style={{ marginTop: 10 }}>
-        Se desarrollaron todas las competencias y en resumen use: React para el
-        frontend con Boostrap, NodeJS para el backend con una base de datos
-        Postgres y el consumo a una api externa de películas:{" "}
+        Competencias: React para el frontend con Boostrap, NodeJS para el
+        backend con una base de datos Postgres y el consumo a una api externa de
+        películas:{" "}
         <a
           target="_blank"
           className="text-dark"
@@ -31,9 +31,11 @@ export const Info = () => {
         >
           TMDB
         </a>
-        . La aplicación permite consultar las mejores películas actuales,
-        realizar inicio de sesión con 2 roles (admin y usuario) y guardar
-        películas como favoritas.
+      </h5>
+      <h5>
+        La aplicación permite consultar las mejores películas actuales, realizar
+        inicio de sesión con 2 roles (admin y usuario) y guardar películas como
+        favoritas.
       </h5>
     </div>
   );

@@ -1,7 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
-import { Header } from "../home/screens/Header";
-
 export const RegisterAdmin = (props: any) => {
   return (
     <div>
@@ -19,8 +16,4 @@ export const RegisterAdmin = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterAdmin);
+export default RegisterAdmin;

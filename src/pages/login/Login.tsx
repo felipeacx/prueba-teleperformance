@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { connect } from "react-redux";
-import { loginRequest } from "../../state/actions/userActions";
+import React, { useEffect, useState } from "react";
+import { loginRequest } from "../../actions/userActions";
 import { Loading } from "../components/Loading";
 
 const Login = (props: any) => {
@@ -45,9 +44,10 @@ const Login = (props: any) => {
       data.email !== "" &&
       data.password !== ""
     ) {
-      const success = await props.loginRequest(data);
-      if (success) {
-        if (props.rol === 1) {
+      await loginRequest(data);
+      const success = localStorage.getItem("success");
+      if (success === "true") {
+        if (localStorage.getItem("rol") === "1") {
           window.location.href = "/profile/admin";
         } else {
           window.location.href = "/profile/user";
@@ -61,11 +61,12 @@ const Login = (props: any) => {
   };
   return (
     <div>
-      {props.loading && <Loading />}
+      {localStorage.getItem("loading") === "true" && <Loading />}
       <div
+        className="position-absolute"
         style={{
-          width: "100%",
-          marginTop: "30%",
+          top: "calc(50% - 175px)",
+          left: "calc(50% - 155px)",
           display: "flex",
           justifyContent: "center",
         }}
@@ -183,10 +184,4 @@ const Login = (props: any) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
-  return state;
-};
-
-const mapDispatchToProps = { loginRequest };
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;
